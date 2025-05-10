@@ -1,12 +1,20 @@
-import{ isAuthenticated} from " ../middlewares/authMiddleware.js ";
+// import{ isAuthenticated} from " ../middlewares/authMiddleware.js ";
 
-import {addBook,deleteBook,getAllBook} from"../controllers/bookController.js";
+import {
+  addBook,
+  deleteBook,
+  getAllBooks,
+} from "../controllers/bookController.js";
 import express from "express";
+import {
+  isAuthenticated,
+  isAuthorized,
+} from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/admin/add",isAuthenticated,"Authorized",addBook);
-router.get("/all",isAuthenticated,"Authorized",getAllBook);
-router.delete("/delete/id",isAuthenticated,"Authorized",deleteBook);
+router.post("/admin/add", isAuthenticated, isAuthorized("Admin"), addBook);
+router.get("/all", isAuthenticated, getAllBooks);
+router.delete("/delete/id", isAuthenticated, isAuthorized("Admin"), deleteBook);
 
 export default router;
